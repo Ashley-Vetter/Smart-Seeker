@@ -15,6 +15,10 @@ class VisionSystem:
             frame = cv2.resize(frame, (720, 480))
             cv2.imshow("Tello Camera", frame)
 
+            if target_object:
+                if self.detect_objects(frame, target_object):
+                    break  
+
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
