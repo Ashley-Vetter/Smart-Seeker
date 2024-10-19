@@ -3,21 +3,15 @@ from vision_system import VisionSystem
 from chat_interface import ChatInterface
 
 def main():
-    api_key = 'sk-XNyK3X5f1Z1V1JhiwQva--oyHGVtqgFU7kXrlCABzaT3BlbkFJ09eRS0fmY65c_7uqObTokzeHOpfD3G99FaoYuhGb4A'
+    api_key = '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'
     drone_manager = DroneControl()
     vision_system = VisionSystem(drone_manager.tello)
     chat_interface = ChatInterface(api_key)
 
     drone_manager.connect()
-    while True:
-        prompt = "Please provide a drone command: "
-        instruction = chat_interface.get_instruction(prompt)
-        print(f"Command received: {instruction}")
-        # We can add more conditions here based on the instructions
-        if instruction == "take off":
-            drone_manager.takeoff()
-        elif instruction == "land":
-            drone_manager.land()
+    #drone_manager.takeoff()
+    vision_system.start_video_stream()
+    vision_system.detect_objects()
 
 if __name__ == "__main__":
     main()
