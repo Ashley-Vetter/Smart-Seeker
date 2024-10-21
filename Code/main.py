@@ -9,6 +9,7 @@ def main():
     chat_interface = ChatInterface(api_key)
 
     drone_manager.connect()
+    #drone_manager.streamon()
     #drone_manager.takeoff()
     vision_system.start_video_stream()
     vision_system.detect_objects()
