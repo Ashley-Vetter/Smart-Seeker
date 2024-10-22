@@ -1,6 +1,7 @@
 import cv2
 from djitellopy import tello
 import cvzone
+import time
 
 thres = 0.70
 nmsThres = 0.2
@@ -9,7 +10,6 @@ nmsThres = 0.2
 # cap = cv2.VideoCapture(0)
 # cap.set(3, 640)
 # cap.set(4, 480)
-
 classNames = []
 classFile = 'ss.names' # Contains a totoal of 91 different objects which can be recognized by the code
 with open(classFile, 'rt') as f:
@@ -33,7 +33,7 @@ print(me.get_battery())
 me.streamon()
 
 #me.takeoff()
-#me.move_up(90)
+
 
 
 while True:

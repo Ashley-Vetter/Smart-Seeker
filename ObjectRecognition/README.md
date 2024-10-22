@@ -1,7 +1,8 @@
 # Tello_Obj_Recognition
-This is the code required for a DJI Tell ( EDU Version ) to complete real time objet recognition, with over 91 different objects that can be recognized. We would like to give a special thanks to Murtaza's Workshop & CV Zone from the code that has been used in this. 
 
-List of Objects that can be recognized: 
+This is the code required for a DJI Tell ( EDU Version ) to complete real time objet recognition, with over 91 different objects that can be recognized. We would like to give a special thanks to Murtaza's Workshop & CV Zone from the code that has been used in this.
+
+List of Objects that can be recognized:
 person
 bicycle
 car
@@ -93,6 +94,5 @@ teddy bear
 hair drier
 toothbrush
 hair brush
-
 
 Feel free to Contribute / Edit / Impore !
