@@ -5,7 +5,6 @@ import math
 import re
 
 
-# Global variable
 manual = False
 fullAutomatic = True
 halfAutomatic = False
@@ -120,7 +119,7 @@ class DroneControl:
             
     def Emergency(self):
         try:
-            if self.tello.get_battery() > 0 and self.tello.is_flying:  # Ensure the drone is flying
+            if self.tello.get_battery() > 0 and self.tello.is_flying:  
                 print("Emergency landing...")
                 self.land()
             else:
@@ -131,7 +130,6 @@ class DroneControl:
             
 
     def execute_command(self, rough_string):
-        # Dictionary mapping keywords to corresponding methods
         command_map = {
             "up": self.move_up,
             "down": self.move_down,
@@ -141,20 +139,17 @@ class DroneControl:
             "counter": self.rotate_counter_clockwise
         }
 
-        # Search for numbers in the rough_string
         numbers = re.findall(r'\d+', rough_string)
         
-        # Use the first number found, if any (convert it to an integer)
         distance_or_angle = int(numbers[0]) if numbers else None
 
-        # Check each keyword, and if it's in rough_string, execute the command
         for keyword, command in command_map.items():
             if keyword in rough_string.lower():
                 if distance_or_angle is not None:
-                    command(distance_or_angle)  # Pass the extracted number
+                    command(distance_or_angle)  
                 else:
-                    command()  # No number found, use default value
-                break  # Exit loop once a command has been executed
+                    command()  
+                break  
 
 
                     
