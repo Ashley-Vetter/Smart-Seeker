@@ -30,6 +30,7 @@ class TelloObjectRecognition:
         detected_objects = []  
         frame_height, frame_width = img.shape[:2]
 
+        #sometimes the values comes in tuples, if it is in a tuple we convert it to a numpy array
         if isinstance(classIds, tuple):
             classIds = np.array(classIds)
         if isinstance(confs, tuple):
@@ -41,9 +42,11 @@ class TelloObjectRecognition:
             for classId, conf, box in zip(classIds, confs, bbox):
                 className = self.classNames[classId - 1] if classId - 1 < len(self.classNames) else "Unknown"
                 
+                #gets the center of the box containing the item
                 box_center_x = box[0] + box[2] // 2  
                 box_center_y = box[1] + box[3] // 2 
                 
+                #creates an appropriate description
                 description = f"{className} is located at positions ({box_center_x}, {box_center_y})"
                 detected_objects.append(description)
 
@@ -55,27 +58,34 @@ class TelloObjectRecognition:
         
         return all_detected_objects
 
-
+    #main logic
     def start_recognition(self):
         print("Starting object recognition...")
         self.drone.camera(True)
         stop = False
         try:
             while stop!=True:
+                
                 img = self.drone.getframe()
+                #object detection start
                 classIds, confs, bbox = self.detect_objects(img)
 
                 detected_objects = self.display_detections(img, classIds, confs, bbox)
                 if detected_objects != "No objects detected.":
                     print(f"Detected Objects: {detected_objects}")
+                #object detection end
 
+                #shows us the image
                 cv2.imshow("Tello Object Detection", img)
                 
+                #tries to encode the image as a base64, if successful it does the drone control call else it dies
                 success, encoded_img = cv2.imencode(".png", img)
                 if success:
+                    #encodes to bytes
                     png_img = encoded_img.tobytes()  
 
                     message = self.drone.control_drone(detected_objects, png_img)
+                    #control_drone will return a message once its completed, it will then go down and land
                     if message != "":
                         print(message)
                         stop = True
@@ -84,6 +94,7 @@ class TelloObjectRecognition:
                     stop = True
                     break
 
+                #press q to stop
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
                 
@@ -92,6 +103,7 @@ class TelloObjectRecognition:
             cv2.destroyAllWindows()
             self.drone.camera(False)
         
+    #does a depthmap, doesn't work as great since it just applies a filter
     def start_depthMap(self):
         print("Starting depth map simulation...")
         self.drone.camera(True)

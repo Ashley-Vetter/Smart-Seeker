@@ -64,6 +64,7 @@ class ChatInterface:
     def __init__(self, api_key):
         openai.api_key = api_key
 
+    #Checks  and sees if the image (we send through a string of what was found) and states if and object was found
     def checkIfImageContainsSearchKeyword(self, prompt):
         try:
             lekka = self.__class__.searchprompt + self.__class__.keyword + " " + prompt
@@ -90,7 +91,8 @@ class ChatInterface:
         except Exception as e:
             print(f"Error fetching instruction from ChatGPT: {e}")
             return ""
-        
+    
+    #Checks and see's if the user query looks like one of the object queries found in ss.names
     def findSimiliarKeywords(self, prompt):
         try:
             search_prompt = self.__class__.ExplainLocationPrompt + "''" + prompt + "''"
@@ -111,6 +113,7 @@ class ChatInterface:
             print(f"Error fetching instruction from ChatGPT: {e}")
             return ""
         
+    #an image is given and this image is then checked and verified before a description is done (a very detailed description) about where the object is
     def findObject(self, img):
         try:
             openai.api_key = self.__class__.api_key
@@ -142,7 +145,7 @@ class ChatInterface:
             return ""
         
  
-        
+    #does an autosearch and gives back the logic of what it is doing, what it should be doing and a drone command to execute
     def autoSearch(self, img):
         try:
             openai.api_key = self.__class__.api_key
@@ -184,6 +187,7 @@ class ChatInterface:
             reasoning = data.get("ReasoningToPassOn")
             code_snippet = data.get("python_code", {}).get("CodeSnippet")
             
+            #parses the json into objects
             print(response.choices[0].message.content)
             
             self.previousLogic.append(logic)
@@ -195,6 +199,8 @@ class ChatInterface:
             print(f"Error fetching instruction from ChatGPT: {e}")
             return ""
         
+    #Creates an additional bit based off of the previous logic
+    #adds it as a string to give back, acts as a memory function
     def create_search_prompt(self):
         all_entries = (self.previousLogic + self.previousReasoning + self.previousCommands)[-5:]
 
@@ -205,6 +211,5 @@ class ChatInterface:
             else:
                 formatted_entries += f"{i}. {entry}\n"
 
-        # Final search_prompt string with formatted entries
         search_prompt = f"Search Prompt:\n\n{formatted_entries}"
         return search_prompt
