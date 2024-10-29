@@ -66,7 +66,6 @@ class ChatInterface:
 
     def checkIfImageContainsSearchKeyword(self, prompt):
         try:
-            # Accessing class variables with self.__class__
             lekka = self.__class__.searchprompt + self.__class__.keyword + " " + prompt
             openai.api_key = self.__class__.api_key
             response = openai.ChatCompletion.create(
@@ -80,7 +79,6 @@ class ChatInterface:
                 frequency_penalty=0,
                 presence_penalty=0
             )
-            # Use self.__class__.lastResponse to modify the class variable
             self.__class__.lastResponse = response.choices[0].message.content
             parts = response.choices[0].message.content.split('|', 1)
             if len(parts) == 2:
@@ -88,7 +86,6 @@ class ChatInterface:
                 message_part = parts[1].strip()
                 return boolean_part, message_part
             else:
-                # Handle cases where the format might not be as expected
                 return False, response.choices[0].message.content
         except Exception as e:
             print(f"Error fetching instruction from ChatGPT: {e}")
@@ -96,7 +93,6 @@ class ChatInterface:
         
     def findSimiliarKeywords(self, prompt):
         try:
-            # Accessing class variables with self.__class__
             search_prompt = self.__class__.ExplainLocationPrompt + "''" + prompt + "''"
             openai.api_key = self.__class__.api_key
             response = openai.ChatCompletion.create(
@@ -110,7 +106,6 @@ class ChatInterface:
                 frequency_penalty=0,
                 presence_penalty=0
             )
-            # Use self.__class__.lastResponse to modify the class variable
             self.__class__.keyword = "Keyword(s) : (" + response.choices[0].message.content + ")"
         except Exception as e:
             print(f"Error fetching instruction from ChatGPT: {e}")
@@ -118,7 +113,6 @@ class ChatInterface:
         
     def findObject(self, img):
         try:
-            # Accessing class variables with self.__class__
             openai.api_key = self.__class__.api_key
             search_prompt = self.__class__.ExplainLocationPrompt + self.__class__.keyword + " Last user resoponse "+ self.__class__.userPrompt + " Last queried response : " + self.__class__.lastResponse
             base64_image = base64.b64encode(img).decode("utf-8")
@@ -151,7 +145,6 @@ class ChatInterface:
         
     def autoSearch(self, img):
         try:
-            # Accessing class variables with self.__class__
             openai.api_key = self.__class__.api_key
             search_prompt = self.__class__.fullDroneControlMessage + "\n\r \n\r" + self.__class__.keyword + " Last user resoponse "+ self.__class__.userPrompt
             
@@ -185,10 +178,8 @@ class ChatInterface:
                 }
             )
             
-            # Parse JSON data
             data = json.loads(response.choices[0].message.content)
 
-            # Extract values
             logic = data.get("logic")
             reasoning = data.get("ReasoningToPassOn")
             code_snippet = data.get("python_code", {}).get("CodeSnippet")
@@ -205,10 +196,8 @@ class ChatInterface:
             return ""
         
     def create_search_prompt(self):
-        # Combine the arrays in ascending order and get only the last 5 entries
         all_entries = (self.previousLogic + self.previousReasoning + self.previousCommands)[-5:]
 
-        # Format each entry with numbering, adding a note for the last entry
         formatted_entries = ""
         for i, entry in enumerate(all_entries, start=1):
             if i == len(all_entries):

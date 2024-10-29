@@ -3,26 +3,6 @@
 # import torch  
 # import time
 
-<<<<<<< Updated upstream
-class VisionSystem:
-    def __init__(self, drone):
-        self.drone = drone
-        self.model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
-
-    def start_video_stream(self, target_object=None):
-        self.drone.streamon()
-        while True:
-            frame = self.drone.get_frame_read().frame
-            frame = cv2.resize(frame, (720, 480))
-            cv2.imshow("Tello Camera", frame)
-
-            if target_object:
-                if self.detect_objects(frame, target_object):
-                    break  
-
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-=======
 # class VisionSystem:
 #     def __init__(self, drone):
 #         self.drone = drone
@@ -50,33 +30,19 @@ class VisionSystem:
 
 #             if cv2.waitKey(1) & 0xFF == ord('q'):
 #                 break
->>>>>>> Stashed changes
 
 #         cv2.destroyAllWindows()
 #         self.drone.streamoff()
 
 #     def detect_objects(self, frame, target_object):
         
-<<<<<<< Updated upstream
-        results = self.model(frame)
-        detections = results.pandas().xyxy[0]  
-
-=======
 #         results = self.model(frame)
 #         detections = results.pandas().xyxy[0]  
 #         print(detections) 
->>>>>>> Stashed changes
         
 #         if target_object in detections['name'].values:
 #             print(f"Target object '{target_object}' found!")
             
-<<<<<<< Updated upstream
-            self.drone.hover(3)
-            return True
-        else:
-            print(f"Target object '{target_object}' not found.")
-            return False
-=======
 #             #self.drone.hover(3)
 #             return True
 #         else:
@@ -96,4 +62,3 @@ class VisionSystem:
 #         else:
 #             self.tracking_start_time = None
 #         return frame
->>>>>>> Stashed changes
