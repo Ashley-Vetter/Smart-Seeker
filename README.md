@@ -89,4 +89,3 @@ Once the drone is airborne, the video feed can be viewed by using the start_vide
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-(Not totally sure about the License)
