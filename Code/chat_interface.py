@@ -42,6 +42,9 @@ class ChatInterface:
 
         def rotate_counter_clockwise(self, angle=45):
             self.tello.rotate_counter_clockwise(angle)
+            
+        def land(self):#Call this upon success
+            self.tello.land()
 
     Execute your command in the following JSON
 
