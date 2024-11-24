@@ -18,8 +18,8 @@ This project is a drone assistant that utilizes object recognition, image tracki
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/drone-assistant.git
-cd drone-assistant
+git clone https://github.com/Ashley-Vetter/Smart-Seeker.git
+cd Smart-Seeker
 ```
 
 ### Install Required Python Packages
